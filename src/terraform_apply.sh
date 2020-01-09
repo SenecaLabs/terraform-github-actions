@@ -23,8 +23,9 @@ function terraformApply {
   fi
 
   # Comment on the pull request if necessary.
-  if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ]; then
-    applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus}
+  
+  if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "issue_comment" ]] && [ "${tfComment}" == "1" ]; then
+    applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus} for ${tfWorkingDir}
 <details><summary>Show Output</summary>
 
 \`\`\`
@@ -33,12 +34,22 @@ ${applyOutput}
 
 </details>
 
-*Workflow: \`${GITHUB_WORKFLOW}\`, Action: \`${GITHUB_ACTION}\`, Working Directory: \`${tfWorkingDir}\`*"
+### Sick job 👍🚀
+
+![](https://media0.giphy.com/media/vMNoKKznOrUJi/giphy.gif?cid=36b14facf4bb00fb21dbe476f6214de57e9eecfc8076857b&rid=giphy.gif)
+"
 
     applyCommentWrapper=$(stripColors "${applyCommentWrapper}")
     echo "apply: info: creating JSON"
     applyPayload=$(echo "${applyCommentWrapper}" | jq -R --slurp '{body: .}')
     applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.comments_url)
+
+    cat ${GITHUB_EVENT_PATH}
+    if [[ -z "$applyCommentsURL" ]]; then
+      applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .issue.comments_url)
+    fi
+    echo $applyCommentsURL
+
     echo "apply: info: commenting on the pull request"
     echo "${applyPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${applyCommentsURL}" > /dev/null
   fi
