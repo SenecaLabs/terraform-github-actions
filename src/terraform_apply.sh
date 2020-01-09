@@ -47,6 +47,7 @@ ${applyOutput}
     applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.comments_url)
 
     if [[ -z "$applyCommentsURL" ]]; then
+    echo "Checking: issue.comments_url"
       applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .issue.comments_url)
     fi
 
