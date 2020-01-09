@@ -2,7 +2,8 @@
 
 function terraformApply {
   # Gather the output of `terraform apply`.
-  echo "apply: info: applying Terraform configuration in ${tfWorkingDir}"
+  echo "EVENT: ${GITHUB_EVENT_NAME}"
+  echo "APP: info: applying Terraform configuration in ${tfWorkingDir}"
   applyOutput=$(terraform apply -auto-approve -input=false ${*} 2>&1)
   applyExitCode=${?}
   applyCommentStatus="Failed"
@@ -23,6 +24,8 @@ function terraformApply {
   fi
 
   # Comment on the pull request if necessary.
+
+
   
   if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "issue_comment" ]] && [ "${tfComment}" == "1" ]; then
     applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus} for ${tfWorkingDir}
