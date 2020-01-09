@@ -47,13 +47,8 @@ ${applyOutput}
     applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.comments_url)
 
     if [[ -z "$applyCommentsURL" || "$applyCommentsURL" == "null" ]]; then
-    echo "Checking: issue.comments_url"
       applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .issue.comments_url)
     fi
-
-    echo "URL: ${applyCommentsURL}"
-    cat ${GITHUB_EVENT_PATH}
-
 
     echo "apply: info: commenting on the pull request"
     echo "${applyPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${applyCommentsURL}" > /dev/null
