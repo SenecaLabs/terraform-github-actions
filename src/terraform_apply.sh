@@ -44,11 +44,9 @@ ${applyOutput}
     applyPayload=$(echo "${applyCommentWrapper}" | jq -R --slurp '{body: .}')
     applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.comments_url)
 
-    cat ${GITHUB_EVENT_PATH}
     if [[ -z "$applyCommentsURL" ]]; then
       applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .issue.comments_url)
     fi
-    echo $applyCommentsURL
 
     echo "apply: info: commenting on the pull request"
     echo "${applyPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${applyCommentsURL}" > /dev/null
