@@ -46,7 +46,7 @@ ${applyOutput}
     applyPayload=$(echo "${applyCommentWrapper}" | jq -R --slurp '{body: .}')
     applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.comments_url)
 
-    if [[ -z "$applyCommentsURL" ]]; then
+    if [[ -z "$applyCommentsURL" || "$applyCommentsURL" == "null" ]]; then
     echo "Checking: issue.comments_url"
       applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .issue.comments_url)
     fi
