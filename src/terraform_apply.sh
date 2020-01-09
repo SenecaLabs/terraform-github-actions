@@ -2,8 +2,7 @@
 
 function terraformApply {
   # Gather the output of `terraform apply`.
-  echo "EVENT: ${GITHUB_EVENT_NAME}"
-  echo "APP: info: applying Terraform configuration in ${tfWorkingDir}"
+  echo "apply: info: applying Terraform configuration in ${tfWorkingDir}"
   applyOutput=$(terraform apply -auto-approve -input=false ${*} 2>&1)
   applyExitCode=${?}
   applyCommentStatus="Failed"
@@ -50,6 +49,10 @@ ${applyOutput}
     if [[ -z "$applyCommentsURL" ]]; then
       applyCommentsURL=$(cat ${GITHUB_EVENT_PATH} | jq -r .issue.comments_url)
     fi
+
+    echo "URL: ${applyCommentsURL}"
+    cat ${GITHUB_EVENT_PATH}
+
 
     echo "apply: info: commenting on the pull request"
     echo "${applyPayload}" | curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data @- "${applyCommentsURL}" > /dev/null
