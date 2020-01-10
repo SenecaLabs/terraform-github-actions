@@ -53,6 +53,3 @@ ${OUTPUT}
 
   exit ${applyExitCode}
 }
-
-
-terraformApply
