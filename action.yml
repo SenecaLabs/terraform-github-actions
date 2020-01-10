@@ -22,8 +22,11 @@ inputs:
   tf_actions_working_dir:
     description: "Terraform working directory."
     default: "."
-  tf_actions_output_sub_heading:
+  tf_actions_comment_sub_heading:
     description: "A sub heading to put on any comment output"
+  tf_actions_hide_output_in_comment_drawer:
+    description: "If we display the output of the command, the commands output should be tucked away in a drawer on the comment (which is closed by default). If false the output will not be shown in a drawer."
+    default: true
 outputs:
   tf_actions_output:
     description: "The Terraform outputs in JSON format."

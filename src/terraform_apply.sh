@@ -23,26 +23,19 @@ function terraformApply {
   fi
 
   # Comment on the pull request if necessary.
-
-
-  if [[ -z ${tfOutputSubHeading} ]]; then
-    SUB_HEADING="**${tfOutputSubHeading}**"
+      OUTPUT="\`\`\`
+${applyOutput}
+\`\`\`"
+  if [[ "${tfHideOutputInCommentDrawer}" == "1" ]]; then
+      OUTPUT="<details><summary>Show Output</summary>
+$OUTPUT
+</details>"
   fi
   
   if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "issue_comment" ]] && [ "${tfComment}" == "1" ]; then
     applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus} for \`${tfWorkingDir}\`
-${SUB_HEADING}
-<details><summary>Show Output</summary>
-
-\`\`\`
-${applyOutput}
-\`\`\`
-
-</details>
-
-### Sick job 👍🚀
-
-![](https://media0.giphy.com/media/vMNoKKznOrUJi/giphy.gif?cid=36b14facf4bb00fb21dbe476f6214de57e9eecfc8076857b&rid=giphy.gif)
+${tfOutputSubHeading}
+${OUTPUT}
 "
 
     applyCommentWrapper=$(stripColors "${applyCommentWrapper}")
@@ -60,3 +53,6 @@ ${applyOutput}
 
   exit ${applyExitCode}
 }
+
+
+terraformApply

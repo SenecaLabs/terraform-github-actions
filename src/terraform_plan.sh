@@ -41,21 +41,21 @@ function terraformPlan {
         echo
     fi
     
-    if [[ -z ${tfOutputSubHeading} ]]; then
-        SUB_HEADING="**${tfOutputSubHeading}**"
+    OUTPUT="\`\`\`
+    ${planOutput}
+    \`\`\`"
+    if [ ${tfHideOutputInCommentDrawer} -eq 1 ]; then
+        OUTPUT="<details><summary>Show Output</summary>
+        ${OUTPUT}
+        </details>"
     fi
+    
     
     # Comment on the pull request if necessary.
     if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ] && ([ "${planHasChanges}" == "true" ] || [ "${planCommentStatus}" == "Failed" ]); then
         planCommentWrapper="#### \`terraform plan\` ${planCommentStatus} for \`${tfWorkingDir}\`
-${SUB_HEADING}
-<details><summary>Show Output</summary>
-
-\`\`\`
-${planOutput}
-\`\`\`
-
-</details>"
+        ${tfOutputSubHeading}
+        ${OUTPUT}"
         
         planCommentWrapper=$(stripColors "${planCommentWrapper}")
         echo "plan: info: creating JSON"
