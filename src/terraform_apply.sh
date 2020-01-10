@@ -34,7 +34,7 @@ $OUTPUT
   
   if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "issue_comment" ]] && [ "${tfComment}" == "1" ]; then
     applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus} for \`${tfWorkingDir}\`
-${tfOutputSubHeading}
+${tfCommentSubHeading}
 ${OUTPUT}
 "
 

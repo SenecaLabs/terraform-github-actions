@@ -54,7 +54,7 @@ ${OUTPUT}
     # Comment on the pull request if necessary.
     if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "${tfComment}" == "1" ] && ([ "${planHasChanges}" == "true" ] || [ "${planCommentStatus}" == "Failed" ]); then
         planCommentWrapper="#### \`terraform plan\` ${planCommentStatus} for \`${tfWorkingDir}\`
-${tfOutputSubHeading}
+${tfCommentSubHeading}
 ${OUTPUT}"
         
         planCommentWrapper=$(stripColors "${planCommentWrapper}")

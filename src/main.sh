@@ -53,7 +53,6 @@ function parseInputs {
     fi
     
     tfCommentSubHeading=${INPUT_TF_ACTIONS_COMMENT_SUB_HEADING}
-    echo "Got sub heading: $tfCommentSubHeading"
     
     tfHideOutputInCommentDrawer=0
     if [ "${INPUT_TF_ACTIONS_HIDE_OUTPUT_IN_COMMENT_DRAWER}" == "1" ] || [ "${INPUT_TF_ACTIONS_HIDE_OUTPUT_IN_COMMENT_DRAWER}" == "true" ]; then
