@@ -25,9 +25,13 @@ function terraformApply {
   # Comment on the pull request if necessary.
 
 
+  if [[ -z ${tfOutputSubHeading} ]]; then
+    SUB_HEADING="**${tfOutputSubHeading}**"
+  fi
   
   if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "issue_comment" ]] && [ "${tfComment}" == "1" ]; then
-    applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus} for ${tfWorkingDir}
+    applyCommentWrapper="#### \`terraform apply\` ${applyCommentStatus} for \`${tfWorkingDir}\`
+${SUB_HEADING}
 <details><summary>Show Output</summary>
 
 \`\`\`
