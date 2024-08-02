@@ -1,0 +1,17 @@
+
+name: Trigger Docs Build
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  trigger-docs-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Docs Build
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.JENKINS_GITHUB_TOKEN }}
+          repository: SenecaLabs/senedocs
+          event-type: generate-docs

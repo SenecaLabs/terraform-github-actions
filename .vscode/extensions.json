@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "bierner.emojisense",
+    "streetsidesoftware.code-spell-checker",
+    "hediet.vscode-drawio",
+    "github.vscode-pull-request-github",
+    "qezhu.gitlink",
+    "yzhang.markdown-all-in-one",
+    "bierner.markdown-emoji",
+    "davidanson.vscode-markdownlint"
+  ]
+}
